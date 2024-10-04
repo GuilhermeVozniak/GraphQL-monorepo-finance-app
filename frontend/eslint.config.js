@@ -25,6 +25,7 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-imports": "warn",
+      "@typescript-eslint/non-null-acertation": "warn",
     },
   }
 );
