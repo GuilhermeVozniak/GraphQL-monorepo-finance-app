@@ -4,7 +4,7 @@ const defaultViteEnc = {
   // vite defailt envs
   MODE: str({
     desc: "The environment mode",
-    choices: ["development", "production", "dev", "test"],
+    choices: ["development", "staging", "production"],
   }),
   BASE_URL: str({
     desc: "The URL the app is hosted at",

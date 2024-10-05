@@ -1,10 +1,14 @@
 import { useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
-import { CREATE_TRANSACTION } from "../../../graphql/mutations/transaction.multation";
+import { CREATE_TRANSACTION } from "../../graphql/mutations/transaction.multation";
 
 const TransactionForm = () => {
-  const [createTransaction, { loading, error }] =
-    useMutation(CREATE_TRANSACTION);
+  const [createTransaction, { loading, error }] = useMutation(
+    CREATE_TRANSACTION,
+    {
+      refetchQueries: ["GetTransactions"],
+    }
+  );
   if (error) {
     console.log("error", error);
     toast.error("Failed to create transaction: \n" + error.message);
@@ -178,6 +182,7 @@ const TransactionForm = () => {
           />
         </div>
       </div>
+
       {/* SUBMIT BUTTON */}
       <button
         className="text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br

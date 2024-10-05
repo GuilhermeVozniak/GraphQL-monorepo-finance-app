@@ -3,10 +3,10 @@ import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import toast from "react-hot-toast";
 import { MdLogout } from "react-icons/md";
-import Cards from "../../components/app/Cards";
 import { LOGOUT } from "../../graphql/mutations/user.multation";
-import TransactionForm from "./TransactionForm";
 import GET_AUTHENTICATED_USER from "../../graphql/queries/user.query";
+import TransactionForm from "./transactionForm";
+import Transactions from "./transactions";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -95,7 +95,9 @@ const Home = () => {
 
           <TransactionForm />
         </div>
-        <Cards />
+
+        {/* Tansactions */}
+        <Transactions />
       </div>
     </>
   );
