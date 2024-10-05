@@ -1,11 +1,12 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "tsc -b && vite build",
+    "build:prod": "tsc -b && vite build --mode production",
+    "build:staging": "tsc -b && vite build --mode staging",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -14,6 +15,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "chart.js": "^4.4.4",
     "clsx": "^2.1.1",
+    "envalid": "^8.0.0",
     "framer-motion": "^11.11.0",
     "graphql": "^16.9.0",
     "mini-svg-data-uri": "^1.4.4",
