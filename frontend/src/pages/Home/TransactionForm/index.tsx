@@ -1,8 +1,19 @@
+import { useMutation } from "@apollo/client";
+import toast from "react-hot-toast";
+import { CREATE_TRANSACTION } from "../../../graphql/mutations/transaction.multation";
+
 const TransactionForm = () => {
-  const handleSubmit = async (e: any) => {
+  const [createTransaction, { loading, error }] =
+    useMutation(CREATE_TRANSACTION);
+  if (error) {
+    console.log("error", error);
+    toast.error("Failed to create transaction: \n" + error.message);
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const form = e.target;
+    const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     const transactionData = {
       description: formData.get("description"),
@@ -12,7 +23,21 @@ const TransactionForm = () => {
       location: formData.get("location"),
       date: formData.get("date"),
     };
-    console.log("transactionData", transactionData);
+
+    try {
+      const { data } = await createTransaction({
+        variables: {
+          input: transactionData,
+        },
+      });
+      console.log(data);
+
+      form.reset();
+      toast.success("Transaction created successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast.error("Failed to create transaction: \n" + error.message);
+    }
   };
 
   return (
@@ -159,8 +184,9 @@ const TransactionForm = () => {
           from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600
 						disabled:opacity-70 disabled:cursor-not-allowed"
         type="submit"
+        disabled={loading}
       >
-        Add Transaction
+        {loading ? "loading..." : "Add Transaction"}
       </button>
     </form>
   );
