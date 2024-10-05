@@ -14,7 +14,7 @@ const userTypeDef = `#graphql
   }
 
   type Mutation {
-    singUp(input: SignUpInput!): User
+    signUp(input: SignUpInput!): User
     login(input: LoginInput!): User
     logout: LogoutResponse
   }

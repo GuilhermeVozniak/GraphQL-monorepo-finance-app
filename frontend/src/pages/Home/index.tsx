@@ -1,9 +1,12 @@
+import { useMutation, useQuery } from "@apollo/client";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-
+import toast from "react-hot-toast";
 import { MdLogout } from "react-icons/md";
 import Cards from "../../components/app/Cards";
+import { LOGOUT } from "../../graphql/mutations/user.multation";
 import TransactionForm from "./TransactionForm";
+import GET_AUTHENTICATED_USER from "../../graphql/queries/user.query";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -32,11 +35,31 @@ const Home = () => {
     ],
   };
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-  };
+  const {
+    data: { authUser },
+    error: getuserError,
+  } = useQuery(GET_AUTHENTICATED_USER);
+  if (getuserError) {
+    console.error(getuserError);
+    toast.error("An error occurred. Please try again");
+  }
 
-  const loading = false;
+  const [logout, { loading, error }] = useMutation(LOGOUT, {
+    refetchQueries: ["GetAutheticatedUser"],
+  });
+  if (error) {
+    console.error("error", error);
+    toast.error("An error occurred. Please try again");
+  }
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // clear the Apollo cache
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err?.message);
+    }
+  };
 
   return (
     <>
@@ -46,7 +69,11 @@ const Home = () => {
             Spend wisely, track wisely
           </p>
           <img
-            src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+            src={
+              authUser
+                ? authUser?.profilePicture
+                : "https://tecdn.b-cdn.net/img/new/avatars/2.webp"
+            }
             className="w-11 h-11 rounded-full border cursor-pointer"
             alt="Avatar"
           />

@@ -11,7 +11,7 @@ const transactionResolver = {
         const trasactions = await Transaction.find({ userId });
         return trasactions;
       } catch (error) {
-        console.log("Error in trasactions resolver", error);
+        console.error("Error in trasactions resolver", error);
         throw new Error(error.message || "Error getting trasactions");
       }
     },
@@ -27,7 +27,7 @@ const transactionResolver = {
         });
         return trasaction;
       } catch (error) {
-        console.log("Error in trasaction resolver", error);
+        console.error("Error in trasaction resolver", error);
         throw new Error(error.message || "Error getting trasaction");
       }
     },
@@ -43,7 +43,7 @@ const transactionResolver = {
         await newTransaction.save();
         return newTransaction;
       } catch (error) {
-        console.log("Error in createTransaction resolver", error);
+        console.error("Error in createTransaction resolver", error);
         throw new Error(error.message || "Error creating trasaction");
       }
     },
@@ -53,7 +53,7 @@ const transactionResolver = {
           new: true,
         });
       } catch (error) {
-        console.log("Error in updateTransaction resolver", error);
+        console.error("Error in updateTransaction resolver", error);
         throw new Error(error.message || "Error updating trasaction");
       }
     },
@@ -61,7 +61,7 @@ const transactionResolver = {
       try {
         return await Transaction.findOneAndDelete(input.transactionId);
       } catch (error) {
-        console.log("Error in deleteTransaction resolver", error);
+        console.error("Error in deleteTransaction resolver", error);
         throw new Error(error.message || "Error deleting trasaction");
       }
     },

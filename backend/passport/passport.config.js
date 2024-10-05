@@ -6,21 +6,23 @@ import { GraphQLLocalStrategy } from "graphql-passport";
 
 export const configurePassport = async () => {
   passport.serializeUser((user, done) => {
-    console.log("serializeUser >>>\n", user);
+    console.info("[serializeUser]>>>", user);
     done(null, user.id);
   });
 
   passport.deserializeUser(async (id, done) => {
-    console.log("deserializeUser >>>\n", id);
+    console.info("[deserializeUser]>>>", id);
     try {
       const user = await User.findById(id);
+      done(null, user);
     } catch (error) {
+      console.error("Error in deserializeUser", error);
       done(error);
     }
   });
 
   passport.use(
-    new GraphQLLocalStrategy(async (email, password, done) => {
+    new GraphQLLocalStrategy(async (username, password, done) => {
       try {
         const user = await User.findOne({ username });
         if (!user) {
@@ -34,6 +36,7 @@ export const configurePassport = async () => {
 
         return done(null, user);
       } catch (error) {
+        console.error("Error in GraphQLLocalStrategy", error);
         return done(error);
       }
     })

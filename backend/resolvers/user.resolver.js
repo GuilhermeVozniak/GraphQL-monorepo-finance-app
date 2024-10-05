@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const userResolver = {
   Mutation: {
-    singUp: async (_, { input }, context) => {
+    signUp: async (_, { input }, context) => {
       try {
         const { username, name, password, gender } = input;
         if (!username || !name || !password || !gender) {
@@ -33,7 +33,7 @@ const userResolver = {
         await context.login(newUser);
         return newUser;
       } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -51,24 +51,24 @@ const userResolver = {
         await context.login(user);
         return user;
       } catch (error) {
-        console.log("Erro in login resolver", error);
+        console.error("Erro in login resolver", error);
         throw new Error(error.message || "Internal server error");
       }
     },
     logout: async (_, __, context) => {
       try {
         await context.logout();
-        req.sesseion.destroy((err) => {
+        context.req.session.destroy((err) => {
           if (err) {
             console.log("Error in logout resolver", err);
             throw new Error("Internal server error");
           }
         });
-        res.clearCookie("connect.sid");
+        context.res.clearCookie("connect.sid");
 
         return { message: "Logged out successfully" };
       } catch (error) {
-        console.log("Erro in login resolver", error);
+        console.error("Erro in login resolver", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -76,10 +76,9 @@ const userResolver = {
   Query: {
     authUser: (_, __, context) => {
       try {
-        const user = context.getUser();
-        return user;
+        return context.getUser();
       } catch (error) {
-        console.log("Error in auth", err);
+        console.error("Error in auth", err);
         throw new Error("Internal server error");
       }
     },
@@ -87,7 +86,7 @@ const userResolver = {
       try {
         return await User.findById(userId);
       } catch (error) {
-        console.log("Error in user resolver", error);
+        console.error("Error in user resolver", error);
         throw new Error(err.message || "Internal server error");
       }
     },
