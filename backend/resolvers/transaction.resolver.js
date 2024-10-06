@@ -49,12 +49,16 @@ const transactionResolver = {
     },
     updateTransaction: async (_, { input }, context) => {
       try {
-        return await Transaction.findOneAndUpdate(input.transactionId, input, {
-          new: true,
-        });
+        const { transactionId, ...updateFields } = input;
+
+        return await Transaction.findOneAndUpdate(
+          { _id: transactionId },
+          updateFields,
+          { new: true }
+        );
       } catch (error) {
         console.error("Error in updateTransaction resolver", error);
-        throw new Error(error.message || "Error updating trasaction");
+        throw new Error(error.message || "Error updating transaction");
       }
     },
     deleteTransaction: async (_, { transactionId }, context) => {

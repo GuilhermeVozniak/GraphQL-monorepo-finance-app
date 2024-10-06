@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import Transactions from "../pages/Transactions";
 import NotFound from "../pages/NotFound";
 import SignUp from "../pages/SignUp";
 import { useQuery } from "@apollo/client";
 import GET_AUTHENTICATED_USER from "../graphql/queries/user.query";
 import toast from "react-hot-toast";
+import Transaction from "../pages/Transaction";
 
 const Routes = () => {
   return (
@@ -20,7 +20,7 @@ const Routes = () => {
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Home />} />
-        <Route path="/transaction/:id" element={<Transactions />} />
+        <Route path="/transaction/:id" element={<Transaction />} />
       </Route>
 
       {/* Public Routes */}

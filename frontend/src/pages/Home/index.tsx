@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 import { MdLogout } from "react-icons/md";
 import { LOGOUT } from "../../graphql/mutations/user.multation";
 import GET_AUTHENTICATED_USER from "../../graphql/queries/user.query";
-import TransactionForm from "./transactionForm";
-import Transactions from "./transactions";
+import TransactionForm from "./TransactionForm";
+import TransactionsList from "./TransactionsList";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -96,8 +96,8 @@ const Home = () => {
           <TransactionForm />
         </div>
 
-        {/* Tansactions */}
-        <Transactions />
+        {/* List Tansactions */}
+        <TransactionsList />
       </div>
     </>
   );

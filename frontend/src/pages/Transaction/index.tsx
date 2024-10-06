@@ -1,15 +1,23 @@
-import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { UPDATE_TRANSACTION } from "../../graphql/mutations/transaction.multation";
 import { GET_TRANSACTION } from "../../graphql/queries/transactions.query";
 import { formatDate } from "../../utils";
 import TransactionFormSkeleton from "./TransactionFormSkeleton";
 
-const Transactions = () => {
+const Transaction = () => {
   const { id } = useParams();
   const { loading, data } = useQuery(GET_TRANSACTION, {
     variables: { id },
   });
+  const [updateTransaction, { loading: loadingUpdate }] = useMutation(
+    UPDATE_TRANSACTION,
+    {
+      refetchQueries: ["GetTransactions"],
+    }
+  );
 
   const [formData, setFormData] = useState({
     description: "",
@@ -31,12 +39,29 @@ const Transactions = () => {
     });
   }, [data]);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("formData", formData);
+
+    try {
+      await updateTransaction({
+        variables: {
+          input: {
+            ...formData,
+            amount: parseFloat(formData.amount),
+            transactionId: id,
+          },
+        },
+      });
+      toast.success("Transaction updated successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast.error("Failed to update transaction: \n" + error.message);
+    }
   };
 
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
     setFormData((prev) => ({
       ...prev,
@@ -208,8 +233,9 @@ const Transactions = () => {
               className="text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br
           from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
               type="submit"
+              disabled={loadingUpdate}
             >
-              Update Transaction
+              {loadingUpdate ? "loading..." : "Update Transaction"}
             </button>
           </form>
         </div>
@@ -217,4 +243,4 @@ const Transactions = () => {
     </>
   );
 };
-export default Transactions;
+export default Transaction;

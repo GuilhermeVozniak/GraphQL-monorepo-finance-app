@@ -27,7 +27,7 @@ const categoryColorMap = {
   // Add more categories and corresponding color classes as needed
 };
 
-const Transactions = () => {
+const TransactionsList = () => {
   const { data, loading, error } = useQuery(GET_TRANSACTIONS);
   let deletingID: string | null = null;
   const [deleteTransaction, { loading: deleteLoading }] = useMutation(
@@ -120,7 +120,7 @@ const Transactions = () => {
                 </p>
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-black font-bold">
-                    {formatDate(transaction.date, "DD-MM-YYYY")}
+                    {formatDate(transaction.date)}
                   </p>
                   <img
                     src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
@@ -135,4 +135,4 @@ const Transactions = () => {
     </div>
   );
 };
-export default Transactions;
+export default TransactionsList;
