@@ -15,6 +15,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "chart.js": "^4.4.4",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "envalid": "^8.0.0",
     "framer-motion": "^11.11.0",
     "graphql": "^16.9.0",

@@ -20,7 +20,7 @@ const Routes = () => {
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Home />} />
-        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/transaction/:id" element={<Transactions />} />
       </Route>
 
       {/* Public Routes */}

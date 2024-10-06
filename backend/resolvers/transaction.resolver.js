@@ -57,9 +57,9 @@ const transactionResolver = {
         throw new Error(error.message || "Error updating trasaction");
       }
     },
-    deleteTransaction: async (_, { input }, context) => {
+    deleteTransaction: async (_, { transactionId }, context) => {
       try {
-        return await Transaction.findOneAndDelete(input.transactionId);
+        return await Transaction.findOneAndDelete({ _id: transactionId });
       } catch (error) {
         console.error("Error in deleteTransaction resolver", error);
         throw new Error(error.message || "Error deleting trasaction");

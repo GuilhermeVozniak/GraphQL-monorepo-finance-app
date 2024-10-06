@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import dayjs from "dayjs";
 import toast from "react-hot-toast";
 import { CREATE_TRANSACTION } from "../../graphql/mutations/transaction.multation";
 
@@ -173,12 +174,13 @@ const TransactionForm = () => {
             Date
           </label>
           <input
+            id="date"
             type="date"
             name="date"
-            id="date"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-[11px] px-4 mb-3 leading-tight focus:outline-none
-						 focus:bg-white"
+            focus:bg-white"
             placeholder="Select date"
+            defaultValue={dayjs().format("YYYY-MM-DD")}
           />
         </div>
       </div>

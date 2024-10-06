@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import InputField from "../../components/app/InputField";
 import RadioButton from "../../components/app/RadioButton";
 import { SIGN_UP } from "../../graphql/mutations/user.multation";
-import toast from "react-hot-toast";
 import GET_AUTHENTICATED_USER from "../../graphql/queries/user.query";
 
 const SignUp = () => {
@@ -67,7 +67,7 @@ const SignUp = () => {
     toast.error("An error occurred. Please try again later");
     console.log(error);
   }
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (data?.authUser) {
       navigate(state?.from ? state.from : "/");
     }
